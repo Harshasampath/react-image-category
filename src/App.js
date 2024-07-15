@@ -5,6 +5,7 @@ function App() {
   const [file, setFile] = useState(null);
   const [categoryValue, setCategoryValue] = useState(3); // Default to no category selected
   const [result, setResult] = useState('');
+  const [cnnPredict, setcnnPredict] = useState('');
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [showBlink, setShowBlink] = useState(false);
 
@@ -54,6 +55,7 @@ function App() {
       if (response.ok) {
         const data = await response.json();
         setResult(data.Disease);
+        setcnnPredict(data.CNNPrediction);
         setUploadSuccess(true);
       } else {
         throw new Error('Network response was not ok.');
@@ -63,6 +65,7 @@ function App() {
       setResult('Failed to get prediction');
       setUploadSuccess(false);
     }
+    
   };
 
   return (
@@ -83,6 +86,7 @@ function App() {
         <input type="file" onChange={handleFileChange} accept="image/*" className={uploadSuccess ? "upload-success" : ""} />
         <p>{uploadSuccess ? 'File uploaded successfully!' : 'No file uploaded yet'}</p>
         <p className={showBlink ? "blink" : ""}>Result: {result}</p>
+        <p className={showBlink ? "blink" : ""}>CNN prediction: {cnnPredict}</p>
       </header>
     </div>
   );
